@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+composer.lock
+config.local.php
+cache/*
+tmp
+.sass-cache

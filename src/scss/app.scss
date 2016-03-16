@@ -1,0 +1,308 @@
+$font-size: 28px;
+
+@import "compass/reset";
+@import "compass/css3/box-sizing";
+@import "compass/css3/border-radius";
+@import "compass/css3/opacity";
+@import "compass/css3/transition";
+
+@mixin theme($primary-color, $secondary-color, $txt-color, $menu-color) {
+  background: $primary-color;
+  color: $txt-color;
+
+  a {
+    color: $secondary-color;
+  }
+
+  .button {
+    background: $secondary-color;
+
+    &.selected {
+      background: $menu-color;
+    }
+  }
+
+  .menu {
+    color: $menu-color;
+    background: $secondary-color;
+
+    a {
+      color: $menu-color;
+      @include opacity(.7);
+    }
+  }
+
+  .date {
+    background: darken($primary-color, 5%);
+    color: $txt-color;
+  }
+
+  .name {
+    color: $txt-color;
+  }
+
+  .none {
+    background: $primary-color;
+  }
+}
+
+* {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @include box-sizing(border-box);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: $font-size;
+  line-height: 1.4;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  top: 20px;
+  right: 20px;
+}
+
+input,
+select {
+  border: 1px solid #fff;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 1rem;
+  padding: 0 5px;
+  margin: 0 0 1rem 0;
+  @include border-radius;
+}
+
+label {
+  display: block;
+
+  span {
+    font-weight: bold;
+    font-size: .7em;
+  }
+
+  p {
+    font-size: .7rem;
+    font-style: italic;
+    margin: -.9rem 0 .5rem 0;
+  }
+}
+
+.button {
+  display: block;
+  position: fixed;
+  z-index: 2;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  @include border-radius(1000px);
+  @include opacity(.4);
+  @include single-transition(opacity, 1s);
+
+  &:hover {
+    @include opaque;
+  }
+
+  &.active {
+    animation: loading .8s infinite ease-in-out;
+  }
+}
+
+.row {
+  overflow: hidden;
+}
+
+.half {
+  display: inline-block;
+  float: left;
+  width: 50%;
+
+  &:first-child {
+    padding-right: 5px;
+  }
+
+  &:last-child {
+    padding-left: 5px;
+  }
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  transition: width .5s;
+  font-size: .8em;
+
+  &.active {
+    width: 100%;
+    max-width: 24%;
+    height: 100%;
+    padding: 50px;
+  }
+}
+
+.date {
+  display: inline-block;
+  padding: 2px 8px;
+  @include border-radius;
+  font-size: .7em;
+  margin-left: 5px;
+  vertical-align: text-bottom;
+}
+
+.name,
+.user {
+  display: block;
+}
+
+.name {
+  font-weight: bold;
+}
+
+footer {
+  overflow: hidden;
+  font-size: .7em;
+  line-height: 1.2;
+  margin-top: 1em;
+  @include opacity(.8);
+
+  a {
+    display: inline-block;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+}
+
+ul li,
+.none {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+}
+
+ul li {
+  width: 50%;
+}
+
+
+
+
+
+
+.none,
+.error {
+  display: none;
+  font-size: .8rem;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+.none.active,
+.error.active {
+  display: inline-block;
+}
+.error {
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  left: 5px;
+  background: #c33;
+}
+.hash {
+  font-weight: bold;
+}
+
+.img {
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, .2);
+}
+
+@-webkit-keyframes loading {
+  0% {
+    @include opacity(0.1);
+  }
+  100% {
+    @include transparent;
+  }
+}
+
+@keyframes loading {
+  0% {
+    @include opacity(0.1);
+  } 100% {
+    @include transparent;
+  }
+}
+
+/**
+ * Color Schemes
+ */
+
+.black-yellow {
+  @include theme(#000, #fff200, #fff, #000);
+}
+
+.blue-white {
+  @include theme(#fff, #0a5796, #333, #fff);
+}
+
+.twitter {
+  @include theme(#f5f8fa, #00aced, #292f33, #c0deed);
+}
+
+.facebook {
+  @include theme(#d8dfea, #3b5998, #141823, #d8dfea);
+}
+
+.halloween {
+  @include theme(#000, #ff8c00, #fff, #000);
+}
+
+/**
+ * Breakpoints
+ */
+
+@media (max-width: 1224px) {
+  .menu.active {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: ($font-size - 10);
+  }
+
+  ul li {
+    width: 80%;
+  }
+
+  .menu.active {
+    max-width: 100%;
+  }
+}
