@@ -19,32 +19,33 @@
         <option value="blue-white">White &amp; Blue</option>
         <option value="twitter">Twitter</option>
         <option value="facebook">Facebook</option>
+        <option value="christmas">Christmas</option>
         <option value="halloween">Halloween</option>
       </select>
     </label>
     <div class="row">
       <div class="half">
-        <label><span>Consumer Key</span>
+        <label><span>Twitter Key</span>
           <input type='text' id='consumerKey' value=''>
-          <p>See <a href="https://dev.twitter.com/apps" target="_blank">dev.twitter.com/apps</a>.</p>
+          <p><a href="https://dev.twitter.com/apps" target="_blank">dev.twitter.com/apps</a>.</p>
         </label>
       </div>
       <div class="half">
-        <label><span>Consumer Secret</span>
+        <label><span>Twitter Secret</span>
           <input type='text' id='consumerSecret' value=''>
-          <p>See <a href="https://dev.twitter.com/apps" target="_blank">dev.twitter.com/apps</a>.</p>
+          <p><a href="https://dev.twitter.com/apps" target="_blank">dev.twitter.com/apps</a>.</p>
         </label>
       </div>
     </div>
     <label><span>Callback</span>
       <input type='text' id='callback' value='' placeholder='' disabled>
-      <p>Copy the callback to the application `Callback URL`.</p>
+      <p><a href="https://dev.twitter.com/apps" target="_blank">dev.twitter.com/apps</a>.</p>
     </label>
     <div class="row">
       <div class="half">
         <label><span>User</span>
           <input type='text' id='user' value='nycgov'>
-          <p>Screen name of Twitter account for the specified list.</p>
+          <p>Twitter account for the specified list.</p>
         </label>
       </div>
       <div class="half">
@@ -72,10 +73,25 @@
       <input type='number' id='limit' value='5' min='3' step='1'>
       <p>The number of tweets to grab per API call.</p>
     </label>
+    <div class="row">
+      <div class="half">
+        <label><span>Sound</span>
+          <input type='checkbox' id='sound'> Enable
+          <em>Play a sound when a there's a new tweet.</em>
+        </label>
+      </div>
+      <div class="half">
+        <label><span>Debug</span>
+          <input type='checkbox' id='debug'> Enable
+          <em>Displays debugging information in console.</em>
+        </label>
+      </div>
+    </div>
   </div>
 </nav>
 <div class='none'>No tweets found. Trying again...</div>
 <div class='error'>There was a problem loading tweets. Please verify settings.</div>
+<script src='js/ion.sound.js'></script>
 <script src='js/app.js' inline></script>
 </body>
 </html>

@@ -10,7 +10,8 @@ var copyFiles = [
   'src/config.local.php',
   'src/CacheBlocks.php',
   'src/api.php',
-  'src/vendor/**/*'
+  'src/vendor/**/*',
+  'src/media/**/*',
 ];
 
 gulp.task('lint', function() {
@@ -20,8 +21,17 @@ gulp.task('lint', function() {
 });
 
 gulp.task('uglify', ['lint'], function() {
+  gulp.src([
+           'node_modules/ion-sound/js/ion.sound.js',
+         ])
+             .pipe($.concat('ion.sound.js'))
+             .pipe(gulp.dest('dist/js'))
+             .pipe($.uglify())
+             .pipe(gulp.dest('dist/js'));
+
   return gulp.src([
            'node_modules/jquery/dist/jquery.js',
+           'node_modules/js-cookie/src/js.cookie.js',
            'src/js/jquery.timeago.js',
            'src/js/app.js'
          ])
@@ -48,8 +58,9 @@ gulp.task('compass', ['images'], function() {
     .pipe(gulp.dest('tmp'));
 });
 
-gulp.task('clean', ['compass'], function() {
+gulp.task('clean', ['compass', 'html'], function() {
   return gulp.src('dist/css/*.css')
+    .pipe($.shorthand())
     .pipe(cleanCSS({
       debug: true
     }, function(details) {
@@ -59,7 +70,7 @@ gulp.task('clean', ['compass'], function() {
     .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('inline', ['clean', 'html'], function() {
+gulp.task('inline', ['clean'], function() {
   return gulp.src('dist/index.html')
         .pipe(inlinesource())
         .pipe(gulp.dest('dist'));
@@ -74,10 +85,7 @@ gulp.task('images', function() {
 });
 
 gulp.task('copy', function() {
-  gulp.src(copyFiles, {base: 'src'})
-    .pipe(gulp.dest('dist'));
-
-  return gulp.src(copyFiles)
+  return gulp.src(copyFiles, {base: 'src'})
     .pipe(gulp.dest('dist'));
 });
 

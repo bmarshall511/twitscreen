@@ -2,6 +2,7 @@
   'use strict';
 
   var App = {
+    elements : {},
     rotate   : false,
     list     : false,
     current  : 0,
@@ -10,39 +11,67 @@
     refresh  : 10000,
     tryCount : 0,
     scheme   : 'black-yellow',
+    logDebug: function( txt ) {
+      if ( this.elements.debug.prop( 'checked' ) ) {
+        console.log( txt );
+      }
+    },
+    ionsound: function() {
+      ion.sound({
+        sounds: [
+            {
+                name: "button_tiny"
+            }
+        ],
+        volume: 0.5,
+        path: "media/",
+        preload: true
+      });
+    },
     loading: function( status ) {
-      var loading = $( '.button' );
-
       if ( status ) {
-        loading.addClass( 'active' );
+        this.elements.button.addClass( 'active' );
       } else {
-        loading.removeClass( 'active' );
+        this.elements.button.removeClass( 'active' );
       }
     },
     listener: function() {
-      $( '.button' ).click(function( e ) {
+      this.elements.button.click(function( e ) {
         e.preventDefault();
         $( this ).toggleClass( 'selected' );
-        $( '.menu' ).toggleClass( 'active' );
+        App.elements.menu.toggleClass( 'active' );
       });
 
-      $( '#color' ).change(function() {
-        $( 'body' ).removeClass( App.scheme );
+      this.elements.color.change(function() {
+        App.elements.body.removeClass( App.scheme );
         App.scheme = $( this ).val();
-        $( 'body' ).addClass( App.scheme );
+        App.elements.body.addClass( App.scheme );
+        Cookies.set( 'scheme', App.scheme );
+      });
+
+      this.elements.consumerKey.change(function() {
+        Cookies.set( 'consumerKey', $( this ).val() );
+      });
+
+      this.elements.consumerSecret.change(function() {
+        Cookies.set( 'consumerSecret', $( this ).val() );
+      });
+
+      this.elements.sound.click(function( e ) {
+        Cookies.set( 'sound', $( this ).prop( 'checked' ) ? 1 : 0 );
       });
     },
     run: function() {
       this.refresh = parseInt( $( '#refresh' ).val() * 1000 );
       if ( this.tryCount <= 3 ) {
         $( '.error' ).removeClass( 'active' );
-        console.info( 'START: Grabbing new tweets (Try: ' + this.tryCount + ')...' );
+        App.logDebug( 'START: Grabbing new tweets (Try: ' + this.tryCount + ')...' );
         App.loadTweets(function() {
           $( '.date' ).timeago();
-          console.info( 'END: done grabbing new tweets.' );
-          console.info( 'Waiting ' + ( App.refresh / 1000 ) + ' seconds before grabbing new tweets...' );
+          App.logDebug( 'END: done grabbing new tweets.' );
+          App.logDebug( 'Waiting ' + ( App.refresh / 1000 ) + ' seconds before grabbing new tweets...' );
           setTimeout(function() {
-            console.info( 'Attempting to grab new tweets...' );
+            App.logDebug( 'Attempting to grab new tweets...' );
             App.run();
           }, App.refresh );
         });
@@ -51,31 +80,84 @@
         $( '.none' ).removeClass( 'active' );
 
         if ( ! $( '.menu' ).hasClass( 'active' ) ) {
-          $( '.button' ).click();
+          App.elements.button.click();
         }
-        console.error( 'Error, stopped. Please verify settings.' );
+        App.logDebug( 'Error, stopped. Please verify settings.' );
         setTimeout(function() {
-          console.info( 'Attempting to grab new tweets...' );
+          App.logDebug( 'Attempting to grab new tweets...' );
           App.tryCount = 0;
           App.run();
         }, App.refresh );
       }
     },
+    /**
+     * Initial configuration of app
+     */
+    configure: function() {
+      this.elements.list           = $( '#list' );
+      this.elements.color          = $( '#color' );
+      this.elements.callback       = $( '#callback' );
+      this.elements.consumerKey    = $( '#consumerKey' );
+      this.elements.consumerSecret = $( '#consumerSecret' );
+      this.elements.limit          = $( '#limit' );
+      this.elements.user           = $( '#user' );
+      this.elements.id             = $( '#id' );
+      this.elements.button         = $( '.button' );
+      this.elements.menu           = $( '.menu' );
+      this.elements.body           = $( 'body' );
+      this.elements.sound          = $( '#sound' );
+      this.elements.debug          = $( '#debug' );
+
+       // Set default form values
+      this.elements.callback.val( location.protocol + "//" + location.host + location.pathname + 'api.php' )
+                      .attr( 'placeholder', location.protocol + "//" + location.host + location.pathname + 'api.php' );
+
+      if ( Cookies.get( 'scheme' ) ) {
+        this.elements.body.addClass( Cookies.get( 'scheme' ) );
+        this.elements.color.val( Cookies.get( 'scheme' ) );
+        App.scheme = Cookies.get( 'scheme' );
+      }
+
+      if ( Cookies.get( 'consumerKey' ) ) {
+        this.elements.consumerKey.val( Cookies.get( 'consumerKey' ) );
+      }
+
+      if ( Cookies.get( 'consumerSecret' ) ) {
+        this.elements.consumerSecret.val( Cookies.get( 'consumerSecret' ) );
+      }
+
+      if ( Cookies.get( 'sound' ) ) {
+        this.elements.sound.prop( 'checked', true );
+      }
+
+      // Configure sounds
+      this.ionsound();
+    },
+    /**
+     * Initializes the app
+     */
     init: function() {
-      this.list = $( '#list' );
-
-      $( '#callback' ).val( window.location.href + 'api.php' )
-                      .attr( 'placeholder', window.location.href + 'api.php' );
-
+      this.configure();
       this.listener();
-
       this.startRotate();
+    },
+    /**
+     * Resets the tick timeout
+     */
+    setPause: function( length ) {
+      App.logDebug( 'tweet shown' );
+      App.logDebug( 'Waiting ' + ( App.wait / 1000 ) + ' seconds before tick.' );
+      setTimeout(function() {
+        App.current++;
+        if ( App.current >= length ) App.current = 0;
+        App.tick();
+      }, App.wait );
     },
     tick: function() {
       if( this.rotate ) {
-        console.info( 'Starting tick (Current: ' + this.current + ')...' );
+        App.logDebug( 'Starting tick (Current: ' + this.current + ')...' );
         this.wait = parseInt( $( '#time' ).val() ) * 1000;
-        var elements = $( 'li', this.list ),
+        var elements = $( 'li', App.elements.list ),
             length   = elements.length,
             visible  = elements.map(function() {
                          if ( $( this ).css( 'opacity' ) == '1' )
@@ -83,43 +165,31 @@
                        });;
 
         if ( length ) {
-          console.info( 'Tweets found.' );
+          App.logDebug( 'Tweets found.' );
           if ( ! visible.length ) {
-            console.info( 'No tweets visible, showing the first...' );
-            $( 'li:first-child', this.list ).animate({
+            App.logDebug( 'No tweets visible, showing the first...' );
+            $( 'li:first-child', App.elements.list ).animate({
               opacity: 1
             }, 500, function() {
-              console.info( 'tweet shown.' );
-              console.info( 'Waiting ' + ( App.wait / 1000 ) + ' seconds before tick.' );
-              setTimeout(function() {
-                App.current++;
-                if ( App.current >= length ) App.current = 0;
-                App.tick();
-              }, App.wait );
+              App.setPause( length );
             });
           } else {
-            console.info( 'Tweets visible. Hiding visible...' );
+            App.logDebug( 'Tweets visible. Hiding visible...' );
             $( visible ).animate({
               opacity: 0
             }, 500, function() {
-              console.info( 'visible hidden.' );
-              console.info( 'Showing the next...' );
-              $( 'li', this.list ).eq( App.current ).animate({
+              App.logDebug( 'visible hidden.' );
+              App.logDebug( 'Showing the next...' );
+              $( 'li', App.elements.list ).eq( App.current ).animate({
                 opacity: 1
               }, 500, function() {
-                console.info('tweet shown.');
-                console.info( 'Waiting ' + ( App.wait / 1000 ) + ' seconds before tick.' );
-                setTimeout(function() {
-                  App.current++;
-                  if ( App.current >= length ) App.current = 0;
-                  App.tick();
-                }, App.wait );
+                App.setPause( length );
               });
             });
           }
         } else {
-          console.error( 'No tweets found.' );
-          console.info( 'Waiting ' + ( App.wait / 1000 ) + ' seconds before tick.' );
+          App.logDebug( 'No tweets found.' );
+          App.logDebug( 'Waiting ' + ( App.wait / 1000 ) + ' seconds before tick.' );
           setTimeout(function() {
               App.tick();
             }, App.wait );
@@ -130,7 +200,7 @@
       App.tryCount++;
       this.getTweets( function( tweets ) {
         if ( tweets ) {
-          console.info( tweets.length + ' tweets loaded.' );
+          App.logDebug( tweets.length + ' tweets loaded.' );
           App.tryCount = 0;
           $( '.none' ).removeClass( 'active' );
           var count = tweets.length;
@@ -140,7 +210,7 @@
             if ( count <= 0 ) callback();
           });
         } else {
-          console.error( 'Unable to load tweets.' );
+          App.logDebug( 'Unable to load tweets.' );
           if( ! $( 'li', App.list ).length ) {
             $( '.none' ).addClass( 'active' );
           }
@@ -153,13 +223,13 @@
         App.loading(1);
         App.calling = true;
         $.post( 'api.php', {
-          id             : $( '#id' ).val(),
+          id             : App.elements.id.val(),
           type           : 'list',
-          user           : $( '#user' ).val(),
-          limit          : $( '#limit' ).val(),
-          consumerKey    : $( '#consumerKey' ).val(),
-          consumerSecret : $( '#consumerSecret' ).val(),
-          callback       : $( '#callback' ).val()
+          user           : App.elements.user.val(),
+          limit          : App.elements.limit.val(),
+          consumerKey    : App.elements.consumerKey.val(),
+          consumerSecret : App.elements.consumerSecret.val(),
+          callback       : App.elements.callback.val()
         }, function( response ) {
           App.calling = false;
           App.loading(0);
@@ -167,6 +237,9 @@
         });
       }
     },
+    /**
+     * Appends a tweet to the list
+     */
     addTweet: function( tweet ) {
       if ( $( '#tweet-' + tweet.id ).length ) return;
       var tpl = $( '<blockquote />' ).html(
@@ -197,18 +270,22 @@
       $( '.date', li ).html( date ).attr( 'datetime', date.toISOString() );
       $( '.name', li ).html( tweet.user.name );
 
-      this.list.append( li );
+      this.elements.list.append( li );
+
+      if ( this.elements.sound.prop( 'checked' ) ) {
+        ion.sound.play( 'button_tiny' );
+      }
 
       this.current = 0;
     },
     startRotate: function() {
-      console.info( 'Started rotation.' );
+      App.logDebug( 'Started rotation.' );
       this.rotate = true;
       this.run();
       this.tick();
     },
     stopRotate: function() {
-      console.info( 'Rotation stopped.' );
+      App.logDebug( 'Rotation stopped.' );
       this.rotate = false;
     }
   };
