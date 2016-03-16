@@ -57,6 +57,14 @@
         Cookies.set( 'consumerSecret', $( this ).val() );
       });
 
+      this.elements.user.change(function() {
+        Cookies.set( 'user', $( this ).val() );
+      });
+
+      this.elements.id.change(function() {
+        Cookies.set( 'id', $( this ).val() );
+      });
+
       this.elements.sound.click(function( e ) {
         Cookies.set( 'sound', $( this ).prop( 'checked' ) ? 1 : 0 );
       });
@@ -128,6 +136,14 @@
 
       if ( Cookies.get( 'sound' ) ) {
         this.elements.sound.prop( 'checked', true );
+      }
+
+      if ( Cookies.get( 'user' ) ) {
+        this.elements.user.val( Cookies.get( 'user' ) );
+      }
+
+      if ( Cookies.get( 'id' ) ) {
+        this.elements.id.val( Cookies.get( 'id' ) );
       }
 
       // Configure sounds
