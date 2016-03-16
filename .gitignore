@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 composer.lock
 config.local.php
-cache/*
+src/cache
+dist/cache
 tmp
 .sass-cache

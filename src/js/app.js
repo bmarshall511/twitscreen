@@ -35,6 +35,7 @@
     run: function() {
       this.refresh = parseInt( $( '#refresh' ).val() * 1000 );
       if ( this.tryCount <= 3 ) {
+        $( '.error' ).removeClass( 'active' );
         console.info( 'START: Grabbing new tweets (Try: ' + this.tryCount + ')...' );
         App.loadTweets(function() {
           $( '.date' ).timeago();
@@ -48,10 +49,16 @@
       } else {
         $( '.error' ).addClass( 'active' );
         $( '.none' ).removeClass( 'active' );
-        console.error( 'Error, stopped. Refreshing in 3 seconds...' );
+
+        if ( ! $( '.menu' ).hasClass( 'active' ) ) {
+          $( '.button' ).click();
+        }
+        console.error( 'Error, stopped. Please verify settings.' );
         setTimeout(function() {
-          location.reload();
-        }, 3000);
+          console.info( 'Attempting to grab new tweets...' );
+          App.tryCount = 0;
+          App.run();
+        }, App.refresh );
       }
     },
     init: function() {
@@ -150,7 +157,7 @@
           type           : 'list',
           user           : $( '#user' ).val(),
           limit          : $( '#limit' ).val(),
-          consumerKet    : $( '#consumerKet' ).val(),
+          consumerKey    : $( '#consumerKey' ).val(),
           consumerSecret : $( '#consumerSecret' ).val(),
           callback       : $( '#callback' ).val()
         }, function( response ) {
