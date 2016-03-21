@@ -12,6 +12,7 @@ var copyFiles = [
   'src/api.php',
   'src/vendor/**/*',
   'src/media/**/*',
+  'src/cache/**/*'
 ];
 
 gulp.task('lint', function() {

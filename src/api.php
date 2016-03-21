@@ -101,16 +101,16 @@ if ( $connected ) {
     }
     // Get list tweets
     if ( is_numeric( $id ) ) {
-      $call = [
+      $call = array(
         'list_id' => $id,
         'count'   => $limit
-      ];
+      );
     } else {
-      $call = [
+      $call = array(
         'slug'              => $id,
         'owner_screen_name' => $username,
         'count'             => $limit
-      ];
+      );
     }
     $list_tweets = $connection->get( 'lists/statuses', $call );
 

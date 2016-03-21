@@ -49,6 +49,16 @@
         Cookies.set( 'scheme', App.scheme );
       });
 
+      this.elements.size.change(function() {
+        Cookies.set( 'size', $( this ).val() );
+        App.elements.body.css( 'font-size', $( this ).val() + 'px' );
+      });
+
+      this.elements.margin.change(function() {
+        Cookies.set( 'margin', $( this ).val() );
+        App.elements.body.css( 'margin', '0 ' + $( this ).val() + '%' );
+      });
+
       this.elements.consumerKey.change(function() {
         Cookies.set( 'consumerKey', $( this ).val() );
       });
@@ -104,6 +114,8 @@
     configure: function() {
       this.elements.list           = $( '#list' );
       this.elements.color          = $( '#color' );
+      this.elements.size           = $( '#size' );
+      this.elements.margin         = $( '#margin' );
       this.elements.callback       = $( '#callback' );
       this.elements.consumerKey    = $( '#consumerKey' );
       this.elements.consumerSecret = $( '#consumerSecret' );
@@ -124,6 +136,16 @@
         this.elements.body.addClass( Cookies.get( 'scheme' ) );
         this.elements.color.val( Cookies.get( 'scheme' ) );
         App.scheme = Cookies.get( 'scheme' );
+      }
+
+      if ( Cookies.get( 'margin' ) ) {
+        this.elements.margin.val( Cookies.get( 'margin' ) );
+        this.elements.body.css( 'margin', '0 ' + Cookies.get( 'margin' ) + '%' );
+      }
+
+      if ( Cookies.get( 'size' ) ) {
+        this.elements.size.val( Cookies.get( 'size' ) );
+        this.elements.body.css( 'font-size', Cookies.get( 'size' ) + 'px' );
       }
 
       if ( Cookies.get( 'consumerKey' ) ) {
