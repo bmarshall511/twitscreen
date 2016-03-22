@@ -32,7 +32,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Changelog
 
-### Version 1.1.0
+### Version 1.0.1
 
 * Updated README acknowledgments
 * Updated repo URL in package.json
