@@ -24,11 +24,18 @@ See also the list of [contributors](https://github.com/bmarshall511/twitscreen/c
 
 Sponsored by Entermedia, LLC.
 
+Entermedia, LLC is a web development shop specializing in Drupal and Wordpress.  Great talent is great to find, and we're always looking for the right individual to add to our team. We offer a fun and motivating team atmosphere, interesting client projects, competitive pay and a flexible schedule. Ideally you're in Austin or Brooklyn, but more important is who you are than where you are. Drop us a line here [http://www.entermedia.com/contact-us](http://www.entermedia.com/contact-us) or call us at 512-326-8800...we'd love to hear from you.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Changelog
+
+### Version 1.1.0
+
+* Updated README acknowledgments
+* Updated repo URL in package.json
 
 ### Version 1.0.0
 
