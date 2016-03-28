@@ -339,16 +339,23 @@
           } else {
             var count = response.tweets.length;
 
-            App.logDebug( count + ' tweets loaded.' );
-            App.tryCount = 0;
+            if ( count ) {
+              App.logDebug( count + ' tweets loaded.' );
+              App.tryCount = 0;
 
-            $( '.none' ).removeClass( 'active' );
-            $.each( response.tweets, function() {
-              App.addTweet( this );
-              count--;
-              if ( count <= 0 ) callback();
-            });
-            App.updateTweetCount();
+              $( '.none' ).removeClass( 'active' );
+              $.each( response.tweets, function() {
+                App.addTweet( this );
+                count--;
+                if ( count <= 0 ) callback();
+              });
+              App.updateTweetCount();
+            } else {
+              $( '.none' ).addClass( 'active' );
+              if ( ! $( '.menu' ).hasClass( 'active' ) ) {
+                App.elements.button.click();
+              }
+            }
           }
         } else {
           App.logDebug( 'Unable to load tweets.' );

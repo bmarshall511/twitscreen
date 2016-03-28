@@ -104,7 +104,7 @@ class Twitscreen {
   public function parse_response( $response ) {
     $result = array();
 
-    if ( ! empty( $response->statuses ) && count( $response->statuses ) ) {
+    if ( isset( $response->statuses ) ) {
       if ( ! empty( $response->search_metadata ) ) {
         $_SESSION['max_id'] = $response->search_metadata->max_id;
       }
@@ -112,12 +112,15 @@ class Twitscreen {
       $response = $response->statuses;
     }
 
-    foreach( $response as $key => $obj ) {
-      $obj->text = $this->txt2link( $obj->text );
-      $obj->text = preg_replace( "/@(\w+)/i", "<a href=\"http://twitter.com/$1\" target=\"_blank\" class=\"at\">$0</a>", $obj->text );
-      $obj->text = preg_replace( "/#(\w+)/i", "<a href=\"http://twitter.com/hashtag/$1\" target=\"_blank\" class=\"hash\">$0</a>", $obj->text );
-      $result[$key] = $obj;
+    if ( count( $response ) ) {
+      foreach( $response as $key => $obj ) {
+        $obj->text = $this->txt2link( $obj->text );
+        $obj->text = preg_replace( "/@(\w+)/i", "<a href=\"http://twitter.com/$1\" target=\"_blank\" class=\"at\">$0</a>", $obj->text );
+        $obj->text = preg_replace( "/#(\w+)/i", "<a href=\"http://twitter.com/hashtag/$1\" target=\"_blank\" class=\"hash\">$0</a>", $obj->text );
+        $result[$key] = $obj;
+      }
     }
+
     return $result;
   }
 
@@ -291,7 +294,7 @@ class Twitscreen {
 
 $consumer_key    = ! empty( $_POST['consumerKey'] ) ? strip_tags( $_POST['consumerKey'] ) : false;
 $consumer_secret = ! empty( $_POST['consumerSecret'] ) ? strip_tags( $_POST['consumerSecret'] ) : false;
-$callback        = ( isset($_SERVER['HTTPS']) ? 'https://' : 'http://' ) . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+$callback        = ( isset($_SERVER['HTTPS']) ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 if ( is_file( dirname( __FILE__ ) . '/config.local.php' ) ) {
   require_once( dirname( __FILE__ ) . '/config.local.php' );
