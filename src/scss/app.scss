@@ -74,6 +74,10 @@ a {
   text-decoration: none;
 }
 
+b {
+  font-weight: bold;
+}
+
 nav {
   display: block;
   position: fixed;
@@ -99,6 +103,10 @@ input[type='checkbox'] {
   vertical-align: text-bottom;
 }
 
+p {
+  margin: 1em 0;
+}
+
 label {
   font-size: .9rem;
   display: block;
@@ -119,6 +127,11 @@ label {
   p {
     margin: -.9rem 0 .5rem 0;
   }
+}
+
+.info {
+  font-size: .6em;
+  margin-bottom: 1rem;
 }
 
 .button {
@@ -223,6 +236,10 @@ ul li,
 
 ul li {
   width: 100%;
+}
+
+.hide {
+  display: none;
 }
 
 .none,

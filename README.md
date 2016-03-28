@@ -32,6 +32,14 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Changelog
 
+### Version 2.0.0
+
+* Rewrote the API to accommodate additional API calls
+* Added the `statuses/home_timeline` API
+* Added the `statuses/user_timeline` API
+* Added the `search/tweets` API
+* Fixed caching bug
+
 ### Version 1.0.1
 
 * Updated README acknowledgments

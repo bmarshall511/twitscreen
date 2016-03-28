@@ -6,13 +6,13 @@ var cleanCSS     = require('gulp-clean-css');
 var inlinesource = require('gulp-inline-source');
 
 var copyFiles = [
-  'src/config.php',
-  'src/config.local.php',
   'src/CacheBlocks.php',
   'src/api.php',
   'src/vendor/**/*',
   'src/media/**/*',
-  'src/cache/**/*'
+  'src/cache/**/*',
+  'src/.htaccess',
+  'src/favicon.ico'
 ];
 
 gulp.task('lint', function() {
