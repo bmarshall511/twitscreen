@@ -293,6 +293,10 @@ $consumer_key    = ! empty( $_POST['consumerKey'] ) ? strip_tags( $_POST['consum
 $consumer_secret = ! empty( $_POST['consumerSecret'] ) ? strip_tags( $_POST['consumerSecret'] ) : false;
 $callback        = ( isset($_SERVER['HTTPS']) ? 'https://' : 'http://' ) . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
+if ( is_file( dirname( __FILE__ ) . '/config.local.php' ) ) {
+  require_once( dirname( __FILE__ ) . '/config.local.php' );
+}
+
 $Twitscreen = new Twitscreen;
 $Twitscreen->consumer_key( $consumer_key );
 $Twitscreen->consumer_secret( $consumer_secret );

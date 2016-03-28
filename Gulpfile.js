@@ -12,7 +12,8 @@ var copyFiles = [
   'src/media/**/*',
   'src/cache/**/*',
   'src/.htaccess',
-  'src/favicon.ico'
+  'src/favicon.ico',
+  'src/config.local.php'
 ];
 
 gulp.task('lint', function() {
