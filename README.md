@@ -42,6 +42,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 * Added the `search/tweets` API
 * Fixed caching bug
 * Fixed limit option bug
+* Added ability to toggle fullscreen
 
 ### Version 1.0.1
 
