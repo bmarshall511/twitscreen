@@ -86,6 +86,11 @@ nav {
   right: 20px;
 }
 
+code {
+  font-style: normal;
+  font-family: "Courier New", Courier, monospace;
+}
+
 input[type='text'],
 input[type='number'],
 select {
@@ -173,6 +178,20 @@ label {
   }
 }
 
+.third {
+  display: inline-block;
+  float: left;
+  width: (100 / 3) * 1%;
+
+  &:first-child {
+    padding-right: 10px;
+  }
+
+  &:last-child {
+    padding-left: 10px;
+  }
+}
+
 .menu {
   position: fixed;
   top: 0;
@@ -185,7 +204,7 @@ label {
 
   &.active {
     width: 100%;
-    max-width: 24%;
+    max-width: 29%;
     height: 100%;
     padding: 40px;
   }

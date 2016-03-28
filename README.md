@@ -39,6 +39,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 * Added the `statuses/user_timeline` API
 * Added the `search/tweets` API
 * Fixed caching bug
+* Fixed limit option bug
 
 ### Version 1.0.1
 

@@ -80,23 +80,11 @@ class Twitscreen {
         if ( is_array( $value ) ) {
           foreach( $value as $k => $v ) {
             if ( $string ) $string .= '-';
-            $string .= trim( strtolower( str_replace( array(
-              ' ',
-              '/'
-            ), array(
-              '_',
-              ''
-            ), $v ) ) );
+            $string .= preg_replace( '/[^a-zA-Z0-9\s]/', '-', $v );
           }
         } else {
           if ( $string ) $string .= '-';
-          $string .= trim( strtolower( str_replace( array(
-            ' ',
-            '/'
-          ), array(
-            '_',
-            ''
-          ), $value ) ) );
+          $string .= preg_replace( '/[^a-zA-Z0-9\s]/', '-', $value );
         }
       }
     }

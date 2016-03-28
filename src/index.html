@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Twitscreen">
 <meta name="twitter:description" content="Twitscreen is an open-source app that displays real-time tweets. Built by Ben Marshall (@bmarshall0511), sponsored by Entermedia, LLC.">
-<meta name="twitter:image" content="img/app.gif">
+<meta name="twitter:image:src" content="http://trekific.com/img/app.gif">
 <meta name="twitter:creator" content="@bmarshall0511">
 
 <meta name="HandheldFriendly" content="true">
@@ -64,24 +64,26 @@
       <p><b>Search Tweets:</b> Returns a collection of relevant Tweets matching a specified query.</p>
       <p>Please note that Twitter’s search service and, by extension, the Search API is not meant to be an exhaustive source of Tweets. Not all Tweets will be indexed or made available via the search interface.</p>
     </div>
-    <label><span>Color Scheme</span>
-      <select id='color' class='option'>
-        <option value="black-yellow">Black &amp; Yellow</option>
-        <option value="blue-white">White &amp; Blue</option>
-        <option value="twitter">Twitter</option>
-        <option value="facebook">Facebook</option>
-        <option value="christmas">Christmas</option>
-        <option value="halloween">Halloween</option>
-      </select>
-    </label>
     <div class="row">
-      <div class="half">
+      <div class='third'>
+        <label><span>Color Scheme</span>
+          <select id='color' class='option'>
+            <option value="black-yellow">Black &amp; Yellow</option>
+            <option value="blue-white">White &amp; Blue</option>
+            <option value="twitter">Twitter</option>
+            <option value="facebook">Facebook</option>
+            <option value="christmas">Christmas</option>
+            <option value="halloween">Halloween</option>
+          </select>
+        </label>
+      </div>
+      <div class="third">
         <label><span>Margin</span>
           <input type='number' id='margin' value='25' min='1' step='1' class='option'>
           <p>Screen margin (%).</p>
         </label>
       </div>
-      <div class="half">
+      <div class="third">
         <label><span>Size</span>
           <input type='number' id='size' value='28' min='11' step='1' class='option'>
           <p>Font size of the tweets (px).</p>
@@ -102,6 +104,7 @@
         </label>
       </div>
     </div>
+    <label style='margin-top:.9rem'><p>Callback URL: <code id='callback'></code></p></label>
     <label class='hide' data-option='q'><span>Search</span>
       <input type='text' id='q' value='#twitscreen' name='q' class='option' placeholder='Enter a search term...'>
     </label>
@@ -120,27 +123,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="half">
+      <div class="third">
+        <label><span>Limit</span>
+          <input type='number' id='limit' value='5' min='3' step='1' name='limit' class='option'>
+          <p>Tweets <b>per</b> API method selected.</p>
+        </label>
+      </div>
+      <div class="third">
         <label><span>Pause (sec)</span>
           <input type='number' id='time' value='3' min='1' step='1' class='option'>
           <p>Time before next tweet shows.</p>
         </label>
       </div>
-      <div class="half">
+      <div class="third">
         <label><span>Update (sec)</span>
           <input type='number' id='refresh' value='60' min='60' step='1' class='option'>
           <p>Time between API calls.</p>
         </label>
       </div>
     </div>
-    <label><span>Limit</span>
-      <input type='number' id='limit' value='5' min='3' step='1' name='limit' class='option'>
-      <p>The number of tweets to grab per API method selected.</p>
-    </label>
-    <label><span>Callback</span>
-      <input type='text' id='callback' value='' placeholder='' disabled>
-      <p><a href="https://dev.twitter.com/apps" target="_blank">dev.twitter.com/apps</a>.</p>
-    </label>
     <div class="row">
       <div class="half">
         <label><span>Sound</span>

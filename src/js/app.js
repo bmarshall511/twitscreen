@@ -183,8 +183,7 @@
       this.elements.debug          = $( '#debug' );
 
        // Set default form values
-      this.elements.callback.val( location.protocol + "//" + location.host + location.pathname + 'api.php' )
-                      .attr( 'placeholder', location.protocol + "//" + location.host + location.pathname + 'api.php' );
+      this.elements.callback.html( location.protocol + "//" + location.host + location.pathname + 'api.php' );
 
       // API values
       if ( Cookies.get( 'apis' ) ) {
@@ -348,6 +347,7 @@
               count--;
               if ( count <= 0 ) callback();
             });
+            App.updateTweetCount();
           }
         } else {
           App.logDebug( 'Unable to load tweets.' );
@@ -410,15 +410,24 @@
       $( '.date', li ).html( date ).attr( 'datetime', date.toISOString() );
       $( '.name', li ).html( tweet.user.name );
 
-
-
-        //visible.after( li );
-
-        this.elements.list.append( li );
-
+      this.elements.list.prepend( li );
 
       if ( this.elements.sound.prop( 'checked' ) ) {
         ion.sound.play( 'button_tiny' );
+      }
+    },
+    updateTweetCount: function() {
+      var total       = $( 'li', this.elements.list ).length,
+          apisChecked = $( 'input.apis[type=checkbox]:checked' ).length,
+          limit       = parseInt( this.elements.limit.val() ) * apisChecked,
+          del         = 0;
+
+      App.logDebug( total + ' tweets in list, ' + apisChecked + ' APIS, only ' + limit + ' allowed.' );
+
+      if ( total > limit ) {
+        del = total - limit;
+        App.logDebug( 'Too many tweets listed, removing the oldest ' + del );
+        $( 'li:gt(' + limit + ')', this.elements.list ).remove();
       }
     },
     startRotate: function() {
