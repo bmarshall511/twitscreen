@@ -188,6 +188,7 @@
       // API values
       if ( Cookies.get( 'apis' ) ) {
         var apis = $.parseJSON( Cookies.get( 'apis' ) );
+        $( this.elements.apis ).prop( 'checked', false );
         apis.map(function( api ) {
           var opt      = $( '[value="' + api + '"]' ),
               required = opt.data( 'require' ) ? opt.data( 'require' ) : false;
