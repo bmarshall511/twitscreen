@@ -2,6 +2,8 @@
 
 A simple web app that displays real-time tweets.
 
+See a demo on [Trekific](http://trekific.com/twitscreen/dist).
+
 ## Contributing
 
 1. Fork it!
