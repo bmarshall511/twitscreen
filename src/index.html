@@ -38,12 +38,15 @@
   <meta itemprop="ratingValue" content="5">
   <meta itemprop="reviewCount" content="1">
 </div>
-<ul id='list'></ul>
+<div class="row">
+  <ul id='list'></ul>
+</div>
 <nav>
   <a href='#' class='button'></a>
   <div class='menu'>
     <form id='options'>
     <input type='hidden' name='runs' value='0' id='runs'>
+    <label style="margin-bottom:.9rem"><a href='#' id='toggleFullscreen'>Toggle Fullscreen</a></label>
     <label><span>Available API Methods</span></label>
     <div class="row" style='margin-bottom:1rem'>
       <div class="half">
@@ -89,9 +92,9 @@
         </label>
       </div>
       <div class="third hide-mobile">
-        <label><span>Margin</span>
-          <input type='number' id='margin' value='25' min='1' step='1' class='option'>
-          <p>Screen margin (%).</p>
+        <label><span>Padding</span>
+          <input type='number' id='padding' value='25' min='1' step='1' class='option'>
+          <p>Screen padding (%).</p>
         </label>
       </div>
       <div class="third hide-mobile">

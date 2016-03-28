@@ -11,7 +11,7 @@
     "build": "gulp"
   },
   "author": "Ben Marshall <me@benmarshall.me>",
-  "license": "GPL2",
+  "license": "GPL-2.0",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.3",
@@ -31,6 +31,7 @@
     "jshint-stylish": "^2.1.0"
   },
   "dependencies": {
-    "gulp-shorthand": "^1.1.0"
+    "gulp-shorthand": "^1.1.0",
+    "screenfull": "^3.0.0"
   }
 }

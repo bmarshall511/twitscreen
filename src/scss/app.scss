@@ -58,15 +58,17 @@ $font-size: 28px;
 }
 
 html,
-body {
+body,
+.body {
   height: 100%;
+  position: relative;
 }
 
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: $font-size;
   line-height: 1.3;
-  margin: 0 25%;
+  padding: 0 25%;
   position: relative;
 }
 
@@ -162,6 +164,7 @@ label {
 
 .row {
   overflow: hidden;
+  position: relative;
 }
 
 .half {

@@ -55,8 +55,8 @@
       Cookies.set( 'sound', this.elements.sound.prop( 'checked' ) ? 1 : 0 );
 
       // Margin
-      Cookies.set( 'margin', this.elements.margin.val() );
-      App.elements.body.css( 'margin', '0 ' + this.elements.margin.val() + '%' );
+      Cookies.set( 'padding', this.elements.padding.val() );
+      App.elements.body.css( 'padding', '0 ' + this.elements.padding.val() + '%' );
 
       // Size
       Cookies.set( 'size', this.elements.size.val() );
@@ -86,6 +86,14 @@
       }, function() {
         var info = $( this ).data( 'info' );
         $( '[data-id="' + info + '"]' ).hide();
+      });
+
+      // Fullscreen
+      this.elements.fullscreen.click(function( e ) {
+        e.preventDefault();
+        if( screenfull.enabled ) {
+          screenfull.toggle();
+        }
       });
 
       // Save options
@@ -162,7 +170,7 @@
       this.elements.form           = $( '#options' );
       this.elements.options        = $( '.option' );
       this.elements.color          = $( '#color' );
-      this.elements.margin         = $( '#margin' );
+      this.elements.padding        = $( '#padding' );
       this.elements.size           = $( '#size' );
       this.elements.consumerKey    = $( '#consumerKey' );
       this.elements.consumerSecret = $( '#consumerSecret' );
@@ -173,8 +181,7 @@
       this.elements.callback       = $( '#callback' );
       this.elements.q              = $( '#q' );
       this.elements.runs           = $( '#runs' );
-
-
+      this.elements.fullscreen     = $( '#toggleFullscreen' );
       this.elements.limit          = $( '#limit' );
       this.elements.button         = $( '.button' );
       this.elements.menu           = $( '.menu' );
@@ -218,9 +225,9 @@
       }
 
       // Margin
-      if ( Cookies.get( 'margin' ) ) {
-        this.elements.margin.val( Cookies.get( 'margin' ) );
-        this.elements.body.css( 'margin', '0 ' + Cookies.get( 'margin' ) + '%' );
+      if ( Cookies.get( 'padding' ) ) {
+        this.elements.padding.val( Cookies.get( 'padding' ) );
+        this.elements.body.css( 'padding', '0 ' + Cookies.get( 'padding' ) + '%' );
       }
 
       // Size

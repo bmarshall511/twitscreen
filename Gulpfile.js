@@ -24,7 +24,7 @@ gulp.task('lint', function() {
 
 gulp.task('uglify', ['lint'], function() {
   gulp.src([
-           'node_modules/ion-sound/js/ion.sound.js',
+           'node_modules/ion-sound/js/ion.sound.js'
          ])
              .pipe($.concat('ion.sound.js'))
              .pipe(gulp.dest('dist/js'))
@@ -35,6 +35,7 @@ gulp.task('uglify', ['lint'], function() {
            'node_modules/jquery/dist/jquery.js',
            'node_modules/js-cookie/src/js.cookie.js',
            'src/js/jquery.timeago.js',
+           'node_modules/screenfull/dist/screenfull.js',
            'src/js/app.js'
          ])
              .pipe($.concat('app.js'))
