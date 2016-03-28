@@ -128,7 +128,7 @@
     run: function() {
       this.refresh = parseInt( $( '#refresh' ).val() * 1000 );
       if ( this.tryCount <= 3 ) {
-        $( '.error' ).removeClass( 'active' );
+        $( '.none' ).removeClass( 'active' );
         App.logDebug( 'START: Grabbing new tweets (Try: ' + this.tryCount + ')...' );
         App.loadTweets(function() {
           $( '.date' ).timeago();
@@ -140,8 +140,7 @@
           }, App.refresh );
         });
       } else {
-        $( '.error' ).addClass( 'active' );
-        $( '.none' ).removeClass( 'active' );
+        $( '.none' ).addClass( 'active' );
 
         if ( ! $( '.menu' ).hasClass( 'active' ) ) {
           App.elements.button.click();
@@ -181,6 +180,8 @@
       this.elements.menu           = $( '.menu' );
       this.elements.body           = $( 'body' );
       this.elements.debug          = $( '#debug' );
+
+      this.toggleOptions();
 
        // Set default form values
       this.elements.callback.html( location.protocol + "//" + location.host + location.pathname + 'api.php' );

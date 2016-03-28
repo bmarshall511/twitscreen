@@ -274,10 +274,10 @@ class Twitscreen {
           if ( $this->response['url'] ) {
             break;
           }
+        }
 
-          if ( count( $this->response['tweets'] ) ) {
-            $this->cache->Save( $this->response, $cache_string );
-          }
+        if ( count( $this->response['tweets'] ) ) {
+          $this->cache->Save( $this->response, $cache_string );
         }
       }
     }
