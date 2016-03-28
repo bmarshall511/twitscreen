@@ -184,7 +184,12 @@
       this.toggleOptions();
 
        // Set default form values
-      this.elements.callback.html( location.protocol + "//" + location.host + location.pathname + 'api.php' );
+      this.elements.callback.html(
+        location.protocol + "//" +
+        location.host +
+        location.pathname.replace( 'index.html', '' ) +
+        'api.php'
+      );
 
       // API values
       if ( Cookies.get( 'apis' ) ) {

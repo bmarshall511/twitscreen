@@ -261,8 +261,7 @@ ul li {
   display: none;
 }
 
-.none,
-.error {
+.none {
   display: none;
   font-size: .8rem;
   color: #fff;
@@ -271,16 +270,11 @@ ul li {
   font-weight: bold;
   background: #c33;
 }
-.none.active,
-.error.active {
+
+.none.active {
   display: inline-block;
 }
-.error {
-  position: absolute;
-  z-index: 1;
-  top: 5px;
-  left: 5px;
-}
+
 .hash {
   font-weight: bold;
 }
@@ -353,14 +347,24 @@ ul li {
 
 @media (max-width: 768px) {
   body {
-    font-size: ($font-size - 10);
+    margin: 0 10px !important;
+    font-size: ($font-size - 10) !important;
   }
 
   ul li {
-    width: 80%;
+    width: 90%;
   }
 
   .menu.active {
     max-width: 100%;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .full-mobile {
+    width: 100%;
+    padding: 0 !important;
   }
 }

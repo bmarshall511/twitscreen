@@ -12,12 +12,12 @@
 <meta property="og:title" content="Twitscreen">
 <meta property="og:description" content="Twitscreen is an open-source app that displays real-time tweets. Built by Ben Marshall (@bmarshall0511), sponsored by Entermedia, LLC.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="http://trekific.com/img/app.gif">
+<meta property="og:image" content="http://trekific.com/twitscreen/dist/img/app.gif">
 <meta property="og:site_name" content="Twitscreen">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Twitscreen">
 <meta name="twitter:description" content="Twitscreen is an open-source app that displays real-time tweets. Built by Ben Marshall (@bmarshall0511), sponsored by Entermedia, LLC.">
-<meta name="twitter:image:src" content="http://trekific.com/img/app.gif">
+<meta name="twitter:image:src" content="http://trekific.com/twitscreen/dist/img/app.gif">
 <meta name="twitter:creator" content="@bmarshall0511">
 
 <meta name="HandheldFriendly" content="true">
@@ -29,7 +29,15 @@
 <body class="black-yellow" itemscope itemtype="http://schema.org/WebApplication">
 <meta itemprop="browserRequirements" content="requires JavaScript">
 <meta itemprop="browserRequirements" content="requires HTML5 support">
+<meta itemprop="applicationCategory" content="Social Media">
+<meta itemprop="operatingSystem" content="Windows 7">
+<meta itemprop="operatingSystem" content="OSX 10.6">
+<meta itemprop="operatingSystem" content="Android 1.6">
 <meta itemprop="downloadUrl" content="https://github.com/bmarshall511/twitscreen">
+<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+  <meta itemprop="ratingValue" content="5">
+  <meta itemprop="reviewCount" content="1">
+</div>
 <ul id='list'></ul>
 <nav>
   <a href='#' class='button'></a>
@@ -68,7 +76,7 @@
       <p>Please note that Twitter’s search service and, by extension, the Search API is not meant to be an exhaustive source of Tweets. Not all Tweets will be indexed or made available via the search interface.</p>
     </div>
     <div class="row">
-      <div class='third'>
+      <div class='third full-mobile'>
         <label><span>Color</span>
           <select id='color' class='option'>
             <option value="black-yellow">Black &amp; Yellow</option>
@@ -80,13 +88,13 @@
           </select>
         </label>
       </div>
-      <div class="third">
+      <div class="third hide-mobile">
         <label><span>Margin</span>
           <input type='number' id='margin' value='25' min='1' step='1' class='option'>
           <p>Screen margin (%).</p>
         </label>
       </div>
-      <div class="third">
+      <div class="third hide-mobile">
         <label><span>Size</span>
           <input type='number' id='size' value='28' min='11' step='1' class='option'>
           <p>Font size of the tweets (px).</p>
@@ -152,7 +160,7 @@
           <em>Play a sound when a there's a new tweet.</em>
         </label>
       </div>
-      <div class="half">
+      <div class="half hide-mobile">
         <label><span>Debug</span>
           <input type='checkbox' id='debug' class='option'> Enable
           <em>Displays debugging information in console.</em>
