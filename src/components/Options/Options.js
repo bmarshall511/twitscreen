@@ -7,7 +7,7 @@ import Field from './../Field/Field';
 class Options extends Component {
   render() {
     const { handleInputChange, state, reset } = this.props;
-
+console.log(process.env);
     return (
       <div>
         <div className="grid-x grid-margin-x">
