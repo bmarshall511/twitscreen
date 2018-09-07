@@ -22,7 +22,7 @@ class Root extends Component {
   constructor() {
     super();
 
-    this.state = {
+    this.defaultState = {
       view:   'loading',
       authUrl: false,
       statuses: [],
@@ -38,9 +38,19 @@ class Root extends Component {
       callback: localStorage.getItem( 'callback' ) || window.location.protocol + '//' + window.location.host + window.location.pathname,
     };
 
+    this.state = this.defaultState;
+
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind( this );
     this.reset = this.reset.bind( this );
+  }
+
+  reset() {
+    localStorage.clear();
+
+    this.setState( this.defaultState );
+
+    this.update();
   }
 
   getUrlParam( param ) {
@@ -156,11 +166,6 @@ class Root extends Component {
 
   componentWillUnmount() {
     clearInterval(this.updateInterval);
-  }
-
-  reset() {
-    localStorage.clear();
-    this.update();
   }
 
   update() {
