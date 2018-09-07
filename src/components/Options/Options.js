@@ -7,13 +7,13 @@ import Field from './../Field/Field';
 class Options extends Component {
   render() {
     const { handleInputChange, state, reset } = this.props;
-console.log(process.env);
+
     return (
       <div>
         <div className="grid-x grid-margin-x">
           <div className="cell">
             <ul className="accordion" data-accordion>
-              {process.env !== 'production' &&
+              {process.env.NODE_ENV !== 'production' &&
                 <li className="accordion-item is-active" data-accordion-item>
                   <a href="#" className="accordion-title">API Credentials</a>
                   <div className="accordion-content" data-tab-content>
@@ -92,7 +92,7 @@ console.log(process.env);
                 <a href="#" className="accordion-title">Advanced Options</a>
                 <div className="accordion-content" data-tab-content>
                   <div className="grid-x grid-margin-x">
-                    {process.env !== 'production' &&
+                    {process.env.NODE_ENV !== 'production' &&
                       <div className="cell">
                         <div className="grid-x grid-margin-x">
                           <div className="cell medium-4">
