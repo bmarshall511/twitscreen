@@ -6,7 +6,7 @@ import Field from './../Field/Field';
 
 class Options extends Component {
   render() {
-    const { handleInputChange, state } = this.props;
+    const { handleInputChange, state, reset } = this.props;
 
     return (
       <div>
@@ -103,6 +103,10 @@ class Options extends Component {
                         <input type="number" name="pause" value={state.pause} onChange={handleInputChange} />
                       </label>
                       <p className="help-text">Number of seconds to display a tweet.</p>
+                    </div>
+                    <div className="cell">
+                      <hr />
+                      <p className="text-center"><button className="button" onClick={reset}>Reset Twitscreen</button> <em>&mdash; deauthorizes Twitscreen & clears locally cached data</em></p>
                     </div>
                   </div>
                 </div>

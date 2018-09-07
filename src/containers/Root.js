@@ -39,6 +39,7 @@ class Root extends Component {
 
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind( this );
+    this.reset = this.reset.bind( this );
   }
 
   getUrlParam( param ) {
@@ -156,6 +157,11 @@ class Root extends Component {
     clearInterval(this.updateInterval);
   }
 
+  reset() {
+    localStorage.clear();
+    this.update();
+  }
+
   update() {
     const Root = this;
 
@@ -255,7 +261,7 @@ class Root extends Component {
     return (
       <div className="off-canvas-wrapper">
         <div className="off-canvas position-right" id="offCanvas" data-off-canvas data-transition="overlap">
-          <Options state={this.state} handleInputChange={this.handleInputChange} />
+          <Options state={this.state} reset={this.reset} handleInputChange={this.handleInputChange} />
         </div>
         <div className="off-canvas-content" data-off-canvas-content>
           <button type="button" className="text-link icon-menu" data-toggle="offCanvas"><Menu /></button>
