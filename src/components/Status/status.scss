@@ -1,0 +1,109 @@
+@import './../../styles/settings';
+@import '~foundation-sites/scss/foundation';
+
+.profile {
+  align-items: center;
+  display: flex;
+  font-size: rem-calc(13);
+}
+
+.profile-banner {
+  margin-left: -($global-padding);
+  margin-right: -($global-padding);
+  margin-top: -($global-padding);
+
+  img {
+    border-radius: $global-radius $global-radius 0 0;
+    display: block;
+    height: 200px;
+    margin-bottom: $global-margin;
+    object-fit: cover;
+    width: 100%;
+
+    @include breakpoint(medium) {
+      height: 266px;
+    }
+  }
+}
+
+.profile-header {
+  align-items: center;
+  display: flex;
+  margin-bottom: rem-calc(27);
+}
+
+.profile-link {
+  flex-grow: 1;
+}
+
+.profile-image {
+  margin-right: rem-calc(6);
+
+  a {
+    display: block;
+  }
+
+  img {
+    border-radius: 100%;
+  }
+}
+
+.name {
+  font-weight: bold;
+}
+
+.profile-verified {
+  height: 12px;
+  width: 12px;
+}
+
+.status-text {
+  margin-bottom: $global-margin / 3;
+  font-size: rem-calc(22);
+  font-weight: bold;
+  letter-spacing: rem-calc(-0.03);
+  line-height: rem-calc(28);
+
+  @include breakpoint(medium) {
+    font-size: rem-calc(28);
+    line-height: rem-calc(34);
+  }
+}
+
+.status-date {
+  flex-grow: 1;
+  font-size: rem-calc(13);
+  font-weight: $global-weight-bold;
+  letter-spacing: rem-calc(0.07);
+  line-height: rem-calc(16);
+}
+
+.status-favs {
+  margin-right: 1rem;
+}
+
+.icon-heart,
+.icon-retweet {
+  vertical-align: text-bottom;
+}
+
+.icon-retweet {
+  height: 12px;
+  width: 18px;
+}
+
+.icon-heart {
+  height: 15px;
+  width: 16px;
+}
+
+.status-meta {
+  display: flex;
+  font-size: rem-calc(13);
+  margin-top: rem-calc(53);
+}
+
+.icon-twitter {
+  height: rem-calc(23);
+  width: rem-calc(28);
+}
