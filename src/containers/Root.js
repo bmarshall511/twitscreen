@@ -35,7 +35,7 @@ class Root extends Component {
       matchUserTheme: this.getBool(localStorage.getItem( 'matchUserTheme' )),
       displayBanner: this.getBool(localStorage.getItem( 'displayBanner' )),
       pause: localStorage.getItem( 'pause' ) || 5,
-      callback: localStorage.getItem( 'callback' ) || window.location.protocol + '//' + window.location.host + '/' + window.location.pathname,
+      callback: localStorage.getItem( 'callback' ) || window.location.protocol + '//' + window.location.host + window.location.pathname,
     };
 
     // This binding is necessary to make `this` work in the callback
