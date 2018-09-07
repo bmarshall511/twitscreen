@@ -8,4 +8,4 @@ import 'foundation-sites';
 import './styles/global.scss';
 
 ReactDOM.render(<Root />, document.getElementById('root'));
-registerServiceWorker();
+//registerServiceWorker();
