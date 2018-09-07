@@ -29,7 +29,7 @@ class Root extends Component {
       consumerKey:    localStorage.getItem( 'consumerKey' ) || '',
       consumerSecret: localStorage.getItem( 'consumerSecret' ) || '',
       messages: [],
-      apiUrl: localStorage.getItem( 'apiUrl' ) || 'https://trekific.com/twitscreen/build/',
+      apiUrl: localStorage.getItem( 'apiUrl' ) || 'https://trekific.com/twitscreen-api/',
       endpoints: {},
       params: {},
       matchUserTheme: this.getBool(localStorage.getItem( 'matchUserTheme' )),
