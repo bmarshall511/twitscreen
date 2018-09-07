@@ -1,12 +1,29 @@
 // Import node dependencies
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 // Import component dependencies
 import Field from './../Field/Field';
 
 class Options extends Component {
   render() {
-    const { handleInputChange, state, reset } = this.props;
+    const { handleInputChange, state, reset, update } = this.props;
+
+    // Set the active paramters based on the selected endpoints
+    let activeParams = {};
+    for(let i = 0;i < Object.keys(state.endpoints).length;i++) {
+      const endpoint    = Object.keys(state.endpoints)[i];
+      const endpointObj = state.endpoints[Object.keys(state.endpoints)[i]];
+
+      for(let x = 0;x < Object.keys(state.params).length;x++) {
+        const param          = state.params[Object.keys(state.params)[x]];
+        const paramEndpoints = param.endpoint;
+
+        if ( $.inArray( endpoint, paramEndpoints ) > -1 && state[endpointObj.key] ) {
+          activeParams[param.key] = param;
+        }
+      }
+    }
 
     return (
       <div>
@@ -14,7 +31,7 @@ class Options extends Component {
           <div className="cell">
             <ul className="accordion" data-accordion>
               {process.env.NODE_ENV !== 'production' &&
-                <li className="accordion-item is-active" data-accordion-item>
+                <li className="accordion-item" data-accordion-item>
                   <a href="#" className="accordion-title">API Credentials</a>
                   <div className="accordion-content" data-tab-content>
                     <div className="grid-x grid-margin-x">
@@ -40,7 +57,7 @@ class Options extends Component {
                   </div>
                 </li>
               }
-              <li className="accordion-item" data-accordion-item>
+              <li className="accordion-item is-active" data-accordion-item>
                 <a href="#" className="accordion-title">Filters</a>
                 <div className="accordion-content" data-tab-content>
                   <div className="grid-x grid-margin-x">
@@ -59,8 +76,8 @@ class Options extends Component {
                         <div className="cell">
                           <hr />
                         </div>
-                        {Object.keys( state.params ).map(( p ) => {
-                          let param = state.params[p];
+                        {Object.keys( activeParams ).map(( p ) => {
+                          const param = activeParams[p];
 
                           return (
                             <Field param={param} state={state} handleInputChange={handleInputChange} key={p} />
@@ -122,8 +139,13 @@ class Options extends Component {
                         </div>
                       </div>
                     }
-                    <div className="cell">
-                      <p className="text-center"><button className="button" onClick={reset}>Reset Twitscreen</button> <em>&mdash; deauthorizes Twitscreen & clears locally cached data</em></p>
+                    <div className="cell medium-6">
+                      <p className="text-center"><button className="button expanded" onClick={update}>Force Refresh</button></p>
+                      <p className="help-text"><b>WARNING:</b> Could cause the rate limit to be exceeded.</p>
+                    </div>
+                    <div className="cell medium-6">
+                      <p className="text-center"><button className="button expanded" onClick={reset}>Reset Twitscreen</button></p>
+                      <p className="help-text">Deauthorizes Twitscreen & clears locally cached data.</p>
                     </div>
                   </div>
                 </div>

@@ -11,7 +11,7 @@ class Message extends Component {
         <p><b>{"Don't"} panic!</b> {"It's"} not the end of the world &mdash; <em>probably</em>. {"Here's"} some of the common reasons Twitter might be giving you the cold shoulder.</p>
         <ul>
           <li><b>{"It's"} just a temporary hiccup</b> &mdash; hopefully a little time apart will settle thing down.</li>
-          <li><b>Double-check your <button data-toggle="offCanvas" className="text-link">consumer key &amp; secret</button></b> &mdash; typo much?</li>
+          <li>Have you <b><button data-toggle="offCanvas" className="text-link">selected a filter</button></b>?</li>
           <li>The <b>gate-keeper {"isn't"} happy</b>, see below:
             <ul>
               {messages.map(( msg ) => {

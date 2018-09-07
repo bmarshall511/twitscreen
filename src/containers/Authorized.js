@@ -29,28 +29,6 @@ class Authorized extends Component {
         status: statuses[index],
         statusIndex: index,
       });
-
-      if ( state.matchUserTheme ) {
-        if ( statuses[index].user.profile_background_color ) {
-          $( 'body' ).css( '--profile-background-color', '#' + statuses[index].user.profile_background_color );
-        } else {
-          $( 'body' ).css( '--profile-background-color', '' );
-        }
-
-        if ( statuses[index].user.profile_text_color ) {
-          $( 'body' ).css( '--profile-text-color', '#' + statuses[index].user.profile_text_color );
-        } else {
-          $( 'body' ).css( '--profile-text-color', '' );
-        }
-
-        if ( statuses[index].user.profile_link_color ) {
-          $( 'body' ).css( '--profile-link-color', '#' + statuses[index].user.profile_link_color );
-        } else {
-          $( 'body' ).css( '--profile-link-color', '' );
-        }
-      } else {
-        $( 'body' ).prop( 'style', '' );
-      }
     }, (state.pause * 1000));
   }
 

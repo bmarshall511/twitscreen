@@ -1,6 +1,7 @@
 // Import node dependencies
 import React, { Component } from 'react';
 import TimeAgo from 'react-timeago';
+import $ from 'jquery';
 
 // Import style dependencies
 import './status.scss';
@@ -36,10 +37,32 @@ class Status extends Component {
   render() {
     const { statusIndex, state } = this.props;
     let status = state.statuses[statusIndex];
-console.log(status);
+
     if ( ! status ) {
       status = state.statuses[0];
     }
+
+		if ( state.matchUserTheme ) {
+			if ( status.user.profile_background_color ) {
+				$( 'body' ).css( '--profile-background-color', '#' + status.user.profile_background_color );
+			} else {
+				$( 'body' ).css( '--profile-background-color', '' );
+			}
+
+			if ( status.user.profile_text_color ) {
+				$( 'body' ).css( '--profile-text-color', '#' + status.user.profile_text_color );
+			} else {
+				$( 'body' ).css( '--profile-text-color', '' );
+			}
+
+			if ( status.user.profile_link_color ) {
+				$( 'body' ).css( '--profile-link-color', '#' + status.user.profile_link_color );
+			} else {
+				$( 'body' ).css( '--profile-link-color', '' );
+			}
+		} else {
+			$( 'body' ).prop( 'style', '' );
+		}
 
     return (
       <div className="modal">

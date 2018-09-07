@@ -119,6 +119,7 @@ a {
 .text-link {
   color: $anchor-color;
   cursor: pointer;
+  font-weight: inherit;
 
   &:hover {
     color: $anchor-color-hover;
@@ -178,6 +179,10 @@ a {
   font-weight: $global-weight-bold;
   position: absolute;
   right: $global-padding / 2;
+
+  a {
+    color: $white;
+  }
 }
 
 .off-canvas {

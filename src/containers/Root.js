@@ -43,6 +43,7 @@ class Root extends Component {
     // This binding is necessary to make `this` work in the callback
     this.handleInputChange = this.handleInputChange.bind( this );
     this.reset = this.reset.bind( this );
+    this.update = this.update.bind( this );
   }
 
   reset() {
@@ -50,6 +51,7 @@ class Root extends Component {
 
     this.setState( this.defaultState );
 
+    this.updateFilters();
     this.update();
   }
 
@@ -89,6 +91,16 @@ class Root extends Component {
     });
   }
 
+  componentDidMount() {
+    this.updateFilters();
+
+    this.updateInterval = setInterval(() => {
+      this.update()
+    }, 60000);
+
+    $( document ).foundation();
+  }
+
   isJson( str ) {
     try {
       JSON.parse( str );
@@ -119,6 +131,16 @@ class Root extends Component {
       postArgs.access_token = localStorage.getItem( 'access_token' );
     }
 
+    // Add selected endpoints
+    for(let i = 0;i < Object.keys(this.state.endpoints).length;i++) {
+      let endpoint   = Object.keys(this.state.endpoints)[i],
+          stateValue = this.state[this.state.endpoints[endpoint].key];
+
+      if ( stateValue != null && stateValue ) {
+        postArgs['endpoints[' + endpoint + ']'] = endpoint;
+      }
+    }
+
     // Add available params
     for(let i = 0;i < Object.keys(this.state.params).length;i++) {
       let param = Object.keys(this.state.params)[i],
@@ -135,7 +157,7 @@ class Root extends Component {
     return postArgs;
   }
 
-  componentDidMount() {
+  updateFilters() {
     // Add available endpoints as state references
     queryApi( this.state.apiUrl, { request_apis: true }, ( result ) => {
       let newState = {};
@@ -156,12 +178,6 @@ class Root extends Component {
       this.setState(newState);
       this.update();
     } );
-
-    this.updateInterval = setInterval(() => {
-      this.update()
-    }, 10000);
-
-    $( document ).foundation();
   }
 
   componentWillUnmount() {
@@ -198,60 +214,41 @@ class Root extends Component {
 
           // Check API errors
           for(let i = 0;i < result.errors.length;i++) {
-            if ( Root.isJson( result.errors[i] ) ) {
-              let errors = JSON.parse( result.errors[i] );
-
-              for(let x = 0;x < errors.errors.length;x++) {
-                messages.push( '(' + errors.errors[x].code + ') ' + errors.errors[x].message );
-              }
+            if ( typeof result.errors[i] === 'string' ) {
+                switch( result.errors[i] ) {
+                  case 'no_endpoints_selected':
+                    messages.push( 'You\'re almost there, just missing a filter.' );
+                  break;
+                  default:
+                    messages.push( result.errors[i] );
+                }
             } else {
-              messages.push( result.errors[i] );
+              switch( result.errors[i].code ) {
+                // Could not authenticate you.
+                case 32:
+                  messages.push( result.errors[i].message );
+                  break;
+                // Query parameters are missing.
+                case 25:
+                  messages.push( result.errors[i].message );
+                  break;
+                // Rate limit exceeded
+                case 88:
+                  messages.push( result.errors[i].message );
+                  break;
+                default:
+                  messages.push( result.errors[i].message );
+              }
             }
           }
-
+          
           newState.messages = messages;
-        } else if ( result.data.response &&
-          result.data.response.errors ) {
-          // Setup the message array
-          let messages = [];
-
-          // Set the error view & set messages
-          newState.view = 'error';
-
-          for(let i = 0;i < result.data.response.errors.length;i++) {
-            switch( result.data.response.errors[i].code ) {
-              // Could not authenticate you.
-              case 32:
-                messages.push( result.data.response.errors[i].message );
-                break;
-              // Query parameters are missing.
-              case 25:
-                messages.push( result.data.response.errors[i].message );
-                break;
-              // Rate limit exceeded
-              case 88:
-                messages.push( result.data.response.errors[i].message );
-                break;
-              default:
-                messages.push( result.data.response.errors[i].message );
-            }
-          }
-
-          newState.messages = messages;
-        }
-
-        if ( result.data.response &&
-          result.data.response.statuses &&
-          result.data.response.statuses.length ) {
-
+        } else if ( result.data && result.data.length ) {
           newState.view     = 'authorized';
-          newState.statuses = result.data.response.statuses;
-        } else if ( result.data.response &&
-          result.data.response.statuses &&
-          ! result.data.response.statuses.length ) {
-
-            newState.view     = 'not-found';
-            newState.statuses = result.data.response.statuses;
+          newState.statuses = result.data;
+        } else if ( result.data && ! result.data.length ) {
+          newState.view     = 'not-found';
+          newState.statuses = result.data.response;
         }
 
         if ( Object.keys(newState).length ) {
@@ -267,12 +264,12 @@ class Root extends Component {
     return (
       <div className="off-canvas-wrapper">
         <div className="off-canvas position-right" id="offCanvas" data-off-canvas data-transition="overlap">
-          <Options state={this.state} reset={this.reset} handleInputChange={this.handleInputChange} />
+          <Options state={this.state} reset={this.reset} update={this.update} handleInputChange={this.handleInputChange} />
         </div>
         <div className="off-canvas-content" data-off-canvas-content>
           <button type="button" className="text-link icon-menu" data-toggle="offCanvas"><Menu /></button>
           <div className="copyright">
-            Twitscreen built by <a href="https://benmarshall.me">Ben Marshall</a> &bull; <a href="https://benmarshall.me/twitscreen" target="_blank">Lean more</a>
+            Twitscreen, a React experiment by <a href="https://benmarshall.me/twitscreen">Ben Marshall</a>
           </div>
           {this.state.view === 'loading' &&
             <Loading />
