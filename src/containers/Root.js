@@ -35,6 +35,7 @@ class Root extends Component {
       matchUserTheme: this.getBool(localStorage.getItem( 'matchUserTheme' )),
       displayBanner: this.getBool(localStorage.getItem( 'displayBanner' )),
       pause: localStorage.getItem( 'pause' ) || 5,
+      callback: localStorage.getItem( 'callback' ) || window.location.protocol + '//' + window.location.host + '/' + window.location.pathname,
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -90,7 +91,7 @@ class Root extends Component {
 
   getPostArgs() {
     let postArgs = {};
-    postArgs.callback = 'http://localhost:3000';
+    postArgs.callback = this.state.callback;
 
     if ( this.getUrlParam('oauth_token') ) {
       postArgs.oauth_token = this.getUrlParam('oauth_token');

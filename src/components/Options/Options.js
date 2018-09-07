@@ -90,14 +90,21 @@ class Options extends Component {
                 <a href="#" className="accordion-title">Advanced Options</a>
                 <div className="accordion-content" data-tab-content>
                   <div className="grid-x grid-margin-x">
-                    <div className="cell medium-6">
+                    <div className="cell medium-4">
                       <label>
                         Twitscreen API URL
                         <input type="url" name="apiUrl" placeholder="ex. https://benmarshall.me/api.php" value={state.apiUrl} onChange={handleInputChange} />
                       </label>
                       <p className="help-text">Enter the URL location of the Twitscreen API.</p>
                     </div>
-                    <div className="cell medium-6">
+                    <div className="cell medium-4">
+                      <label>
+                        Callback URL
+                        <input type="url" name="callback" placeholder="ex. https://trekific.com/twitscreen/build" value={state.callback} onChange={handleInputChange} />
+                      </label>
+                      <p className="help-text">Enter the URL location of the Twitscreen API.</p>
+                    </div>
+                    <div className="cell medium-4">
                       <label>
                         Pause
                         <input type="number" name="pause" value={state.pause} onChange={handleInputChange} />
