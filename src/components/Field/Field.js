@@ -10,11 +10,11 @@ class Field extends Component {
 
     if ( param.type === 'text' ) {
       input = (
-        <input type="text" name={param.key} placeholder={param.placeholder} value={state[param.key]} onChange={handleInputChange} />
+        <input type="text" name={param.key} placeholder={param.placeholder} value={state[param.key]} onChange={handleInputChange} data-refresh="true" />
       );
     } else if ( param.type === 'select' ) {
       input = (
-        <select name={param.key} value={state[param.key]} onChange={handleInputChange}>
+        <select name={param.key} value={state[param.key]} onChange={handleInputChange} data-refresh="true">
           {Object.keys( param.options ).map(( key ) => {
             return (
               <option value={key} key={'select' + key}>{param.options[key]}</option>
@@ -24,7 +24,7 @@ class Field extends Component {
       )
     } else if ( param.type === 'number' ) {
       input = (
-        <input type="number" name={param.key} placeholder={param.placeholder} value={state[param.key]} onChange={handleInputChange} min="1" />
+        <input type="number" name={param.key} placeholder={param.placeholder} value={state[param.key]} onChange={handleInputChange} min="1" data-refresh="true" />
       );
     }
 

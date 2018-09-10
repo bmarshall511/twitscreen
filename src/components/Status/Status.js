@@ -35,7 +35,8 @@ String.prototype.parseHashtag = function() {
 class Status extends Component {
 
   render() {
-    const { statusIndex, state } = this.props;
+    const { state } = this.props;
+		let statusIndex = state.statusIndex;
     let status = state.statuses[statusIndex];
 
     if ( ! status ) {

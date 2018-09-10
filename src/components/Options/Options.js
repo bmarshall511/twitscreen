@@ -7,6 +7,7 @@ import Field from './../Field/Field';
 
 class Options extends Component {
   render() {
+    $( document ).foundation();
     const { handleInputChange, state, reset, update } = this.props;
 
     // Set the active paramters based on the selected endpoints
@@ -68,7 +69,7 @@ class Options extends Component {
 
                           return (
                             <div className="cell medium-6" key={field.key}>
-                              <input type="checkbox" name="apis[]" value={endpoint} id={field.key} onChange={handleInputChange} checked={state[field.key]} /><label htmlFor={field.key}>{field.label}</label>
+                              <input type="checkbox" name="apis[]" value={endpoint} id={field.key} onChange={handleInputChange} data-refresh="true" checked={state[field.key]} /><label htmlFor={field.key}>{field.label}</label>
                               <p className="help-text">({endpoint})</p>
                             </div>
                           )
@@ -133,12 +134,13 @@ class Options extends Component {
                             </label>
                             <p className="help-text">Number of seconds to display a tweet.</p>
                           </div>
-                          <div className="cell">
-                            <hr />
-                          </div>
                         </div>
                       </div>
                     }
+                    <div className="cell">
+                      <input type="checkbox" name="debug" id="debug" checked={state.debug} onChange={handleInputChange} /><label htmlFor="debug">Display debug information</label>
+                      <p className="help-text">Open the browser console when enabled to view more information.</p>
+                    </div>
                     <div className="cell medium-6">
                       <p className="text-center"><button className="button expanded" onClick={update}>Force Refresh</button></p>
                       <p className="help-text"><b>WARNING:</b> Could cause the rate limit to be exceeded.</p>
@@ -150,7 +152,50 @@ class Options extends Component {
                   </div>
                 </div>
               </li>
+              {state.debug &&
+                <li className="accordion-item" data-accordion-item>
+                  <a href="#" className="accordion-title">Debug Panel</a>
+                  <div className="accordion-content" data-tab-content>
+                    <div className="grid-x grid-margin-x">
+                      <div className="cell">
+                        <div className="grid-x grid-margin-x">
+                          <div className="cell medium-6">
+                            <b>Total statuses in state:</b> {state.statuses.length}
+                          </div>
+                          <div className="cell medium-6">
+                            <b>Current status index:</b> {state.statusIndex}
+                          </div>
+                        </div>
+                        <ul className="debug-log">
+                        {state.debugMessages.map((msg) => {
+                          const timestamp = msg.date;
+                          let diff;
+
+                          if ( this.currentTime ) {
+                            diff = ( this.currentTime.getTime() - timestamp.getTime() )
+                          }
+
+                          this.currentTime = msg.date;
+
+                          return (
+                            <li>
+                              <span className={'label ' + msg.type}>{msg.type}</span>
+                              <span className="debug-msg">{msg.msg}</span>
+                              <span className="debug-date">{timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds() + '.' + timestamp.getMilliseconds()}</span>
+                              <span className="debug-diff text-right">{diff}</span>
+                            </li>
+                          )
+                        })}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              }
             </ul>
+          </div>
+          <div className="cell text-center">
+            <p>Twitscreen, a React experiment by <a href="https://benmarshall.me/twitscreen">Ben Marshall</a></p>
           </div>
         </div>
       </div>

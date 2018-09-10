@@ -36,6 +36,9 @@ class Root extends Component {
       displayBanner: this.getBool(localStorage.getItem( 'displayBanner' )),
       pause: localStorage.getItem( 'pause' ) || 5,
       callback: localStorage.getItem( 'callback' ) || 'https://trekific.com/twitscreen/build/',
+      debug: this.getBool(localStorage.getItem( 'debug' )),
+      debugMessages: [],
+      statusIndex: 0,
     };
 
     this.state = this.defaultState;
@@ -44,6 +47,7 @@ class Root extends Component {
     this.handleInputChange = this.handleInputChange.bind( this );
     this.reset = this.reset.bind( this );
     this.update = this.update.bind( this );
+    this.moveStatusIndex = this.moveStatusIndex.bind( this );
   }
 
   reset() {
@@ -53,6 +57,27 @@ class Root extends Component {
 
     this.updateFilters();
     this.update();
+  }
+
+  addDebug( msg, type, raw ) {
+    if ( this.state.debug ) {
+      let messages = this.state.debugMessages;
+
+      messages.push({
+        date: new Date(),
+        msg: msg,
+        type: type
+      });
+
+      this.setState({
+        debugMessages: messages
+      });
+
+      console.log( msg );
+      if ( raw ) {
+        console.log( raw );
+      }
+    }
   }
 
   getUrlParam( param ) {
@@ -75,6 +100,19 @@ class Root extends Component {
     return val;
   }
 
+  moveStatusIndex() {
+    let index = this.state.statusIndex;
+    index++;
+
+    if ( ! this.state.statuses[index] ) {
+      index = 0;
+    }
+
+    this.setState({
+      statusIndex: index
+    });
+  }
+
   handleInputChange( e ) {
     const target   = e.target;
     let name     = target.name;
@@ -84,31 +122,43 @@ class Root extends Component {
       name = target.id;
     }
 
+    this.addDebug( 'Input changed: ' + name + ' - ' + value, 'secondary', target );
+
     localStorage.setItem( name, value ) ;
 
+    this.addDebug( 'Updating state: ' + name + ' - ' + value, 'secondary', {
+      [name]: value
+    });
     this.setState({
       [name]: value
     });
+    this.addDebug( 'State updated: ' + name + ' - ' + value, 'secondary', this.state );
+
+    if ( target.dataset.refresh ) {
+      this.update();
+    }
   }
 
   componentDidMount() {
+    this.addDebug( 'componentDidMount started: Root.js', 'secondary' );
+
     this.updateFilters();
 
     this.updateInterval = setInterval(() => {
       this.update()
     }, 60000);
 
+    this.tweetInterval = setInterval(() => {
+      this.moveStatusIndex()
+    }, this.state.pause * 1000);
+
     $( document ).foundation();
+
+    this.addDebug( 'componentDidMount completed: Root.js', 'secondary' );
   }
 
-  isJson( str ) {
-    try {
-      JSON.parse( str );
-    } catch ( e ) {
-      return false;
-    }
-
-    return true;
+  componentWillUnmount() {
+    clearInterval(this.updateInterval);
   }
 
   getPostArgs() {
@@ -158,8 +208,12 @@ class Root extends Component {
   }
 
   updateFilters() {
+    this.addDebug( 'Query started: Requesting filters', 'secondary' );
+
     // Add available endpoints as state references
     queryApi( this.state.apiUrl, { request_apis: true }, ( result ) => {
+      this.addDebug( 'Query completed: Requesting filters', 'secondary', result );
+
       let newState = {};
       newState.endpoints = result.endpoints;
       newState.params    = result.params;
@@ -175,25 +229,34 @@ class Root extends Component {
         newState[param] = localStorage.getItem( param ) || newState.params[param].default;
       }
 
+      this.addDebug( 'Updating state: Adding available endpoints to state', 'secondary', newState );
       this.setState(newState);
+      this.addDebug( 'State updated: Adding available endpoints to state', 'secondary', this.state );
+
       this.update();
     } );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.updateInterval);
   }
 
   update() {
     const Root = this;
 
+    this.addDebug( 'Query started: Requesting statuses', 'secondary' );
     queryApi( this.state.apiUrl, this.getPostArgs(), ( result ) => {
+      this.addDebug( 'Query completed: Requesting statuses', 'secondary', result );
+
       if ( result.errors.length && result.data.url ) {
+        this.addDebug( 'Authorization required', 'warning', result );
+
         // Authorization required
+        this.addDebug( 'Updating state: Setting view to unauthorized with auth URL', 'secondary', {
+          view:    'unauthorized',
+          authUrl: result.data.url
+        });
         Root.setState({
           view:    'unauthorized',
           authUrl: result.data.url
         });
+        this.addDebug( 'State updated: Setting view to unauthorized with auth URL', 'secondary', this.state );
 
         if ( result.data.oauth_token_secret ) {
           localStorage.setItem( 'oauth_token_secret', result.data.oauth_token_secret );
@@ -206,6 +269,7 @@ class Root extends Component {
         let newState = {};
 
         if ( result.errors && result.errors.length ) {
+          this.addDebug( 'Errors found', 'alert', result.errors );
           // Setup the message array
           let messages = [];
 
@@ -241,7 +305,7 @@ class Root extends Component {
               }
             }
           }
-          
+
           newState.messages = messages;
         } else if ( result.data && result.data.length ) {
           newState.view     = 'authorized';
@@ -261,6 +325,7 @@ class Root extends Component {
   }
 
   render() {
+
     return (
       <div className="off-canvas-wrapper">
         <div className="off-canvas position-right" id="offCanvas" data-off-canvas data-transition="overlap">
@@ -278,7 +343,7 @@ class Root extends Component {
             <Unauthorized authUrl={this.state.authUrl} />
           }
           {this.state.view === 'authorized' &&
-            <Authorized state={this.state} />
+            <Authorized state={this.state} moveStatusIndex={this.moveStatusIndex} />
           }
           {this.state.view === 'error' &&
             <Message messages={this.state.messages} />
